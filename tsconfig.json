@@ -1,25 +1,21 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es6",
-		"outDir": "out",
-		"lib": [
-			"es6"
-		],
-		"baseUrl": ".",
-		"paths": {
-			"#/*": ["src/*"],
-			"git": ["src/@types/git.d.ts"]
-		},
-		"sourceMap": true,
-		"rootDir": "./",
-		"strict": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUnusedParameters": true
-	},
-	"exclude": [
-		"node_modules",
-		".vscode-test"
-	]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "outDir": "out",
+        "lib": ["es6"],
+        "baseUrl": ".",
+        "paths": {
+            "#/*": ["src/*"],
+            "git": ["src/@types/git.d.ts"]
+        },
+        "sourceMap": true,
+        "rootDir": "./",
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedParameters": true
+    },
+    "exclude": ["node_modules", ".vscode-test"],
+    "preset": "ts-jest"
 }

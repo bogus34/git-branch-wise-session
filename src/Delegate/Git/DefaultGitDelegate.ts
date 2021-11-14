@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
-import * as vscodeGit from 'git';
+import * as vscode from "vscode";
+import * as vscodeGit from "git";
 
-import GitDelegate, { OnBranchSwitchedListener } from './GitDelegate';
+import GitDelegate, { OnBranchSwitchedListener } from "./GitDelegate";
 
 /**
  * Default Git Controller Delegate Implementation
@@ -17,18 +17,24 @@ export default class DefaultGitDelegate implements GitDelegate {
     private onBranchSwitchedListener: OnBranchSwitchedListener = () => {};
 
     constructor() {
-        const git = vscode.extensions.getExtension<vscodeGit.GitExtension>('vscode.git')?.exports?.getAPI(1);
+        const git = vscode.extensions
+            .getExtension<vscodeGit.GitExtension>("vscode.git")
+            ?.exports?.getAPI(1);
         if (!git) {
-            throw new Error('You must enable *vscode.git extension* first.');
+            throw new Error("You must enable *vscode.git extension* first.");
         }
         this.git = git;
 
         // FIXME
         this.lastCurrentBranchName = this.currentBranchName;
+
         // FIXME: what if a repository is newly set up after this initialization?
         this.currentRepository?.state?.onDidChange(() => {
             // emit only when current branch is switched
-            if (this.lastCurrentBranchName !== this.currentBranchName) {
+            if (
+                this.lastCurrentBranchName &&
+                this.lastCurrentBranchName !== this.currentBranchName
+            ) {
                 this.lastCurrentBranchName = this.currentBranchName;
                 this.onBranchSwitchedListener(this.currentBranchName);
             }

@@ -1,3 +1,5 @@
+Originally forked from mangano-ito/git-branch-wise-session
+
 # Git Branch-wise Session
 
 An Extension to keep Tabs for each Git branch.
