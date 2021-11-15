@@ -37,16 +37,20 @@ export default class SessionController {
             await this.restore(nameOfSession);
             await this.windowDelegate.showMessage(`You have switched to session "${nameOfSession}".`);
         } catch (exception) {
-            await this.windowDelegate.showMessage(`Session "${nameOfSession}" is not yet saved.`);
+            await this.windowDelegate.showMessage(`Session restoration error: ${exception}`);
         }
     }
 
     async onSessionRestoreRequested(nameOfSession: string) {
         try {
-            await this.restore(nameOfSession);
-            await this.windowDelegate.showMessage(`Session "${nameOfSession}" has been restored.`);
+            const result = await this.restore(nameOfSession);
+            if (result) {
+                await this.windowDelegate.showMessage(`Session "${nameOfSession}" has been restored.`);
+            } else {
+                await this.windowDelegate.showMessage(`Session "${nameOfSession}" is not yet saved.`);    
+            }
         } catch (exception) {
-            await this.windowDelegate.showMessage(`Session "${nameOfSession}" is not yet saved.`);
+            await this.windowDelegate.showMessage(`Session restoration error: ${exception}`);
         }
     }
 
@@ -60,12 +64,13 @@ export default class SessionController {
         await this.windowDelegate.showMessage(`All saved sessions are now cleared.`);
     }
 
-    private async restore(nameOfSession: string) {
+    private async restore(nameOfSession: string): Promise<Boolean> {
         const session = this.repo.get(nameOfSession);
         if (!session) {
-            throw new Error(`Session "${nameOfSession}" is not yet saved.`);
+            return false;
         }
         await this.sessionManagerDelegate.clear();
         await this.sessionManagerDelegate.restore(session);
+        return true;
     }
 }
